@@ -9,7 +9,7 @@ class Http{
   }
   post(url, data){
     let promise = new Promise(function (resolve, reject) {
-      axios.post('https://ht-mjwx-test.htmimi.com/index.php/Api/Wxapi/JsSignPackage', qs.stringify(data), {
+      axios.post(url, qs.stringify(data), {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
