@@ -9,8 +9,8 @@ Vue.use(Router);
 
 
 export default new Router({
-  mode: 'history',
   routes: [
+    { path: '*', component: Index },
     { path: '/', component: Index },
     { path: '/login', component: Login },
     { path: '/login/:id', component: Login },

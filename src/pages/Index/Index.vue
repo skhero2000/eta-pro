@@ -3,7 +3,7 @@
     <header>
       <el-row>
         <el-col :span="3">
-          <div class="title">数据分析系统</div>
+          <div class="title">数据分析</div>
         </el-col>
         <el-col :span="21">
           <el-menu default-active="1" class="topMenu" background-color="#545c64"
@@ -19,7 +19,7 @@
     <div class="container">
       <el-row>
         <el-col :span="3" class="subMenu">
-          <el-menu default-active="1" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b"
+          <el-menu default-active="1" background-color="#1d2833" text-color="#fff" active-text-color="#ffd04b"
                    @open="handleOpen" @close="handleClose" :router="true">
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-message"></i>导航一</template>
