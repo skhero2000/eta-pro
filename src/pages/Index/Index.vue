@@ -3,7 +3,10 @@
     <header>
       <el-row>
         <el-col :span="3">
-          <div class="title">数据分析</div>
+          <div class="title">
+            <!--数据分析系统-->
+            <img src="../../assets/images/htlogo.png" class="logo" />
+          </div>
         </el-col>
         <el-col :span="21">
           <el-menu default-active="1" class="topMenu" background-color="#545c64"

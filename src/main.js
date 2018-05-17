@@ -6,6 +6,7 @@ import App from './App.vue'
 import axios from 'axios'
 import router from './Router/index.js';
 
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$http = axios;
 Vue.use(ElementUI);
 //Vue.use(VueResource);

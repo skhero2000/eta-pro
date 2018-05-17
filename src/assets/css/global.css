@@ -89,6 +89,7 @@ a,a:hover{color:#333;}
 /*自定义*/
 header{ background: #545c64;}
 header .title{ color:#fff; text-align: center; line-height: 60px; font-size: 16px; font-weight: bold;}
+.logo{ height: 50px; vertical-align: middle;}
 .topMenu{ background: #000; }
 .subMenu{ background: #1d2833; overflow: auto;}
 .subMenu >.el-menu{ border-right:0;}
