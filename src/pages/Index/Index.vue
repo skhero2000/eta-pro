@@ -4,7 +4,7 @@
       <el-row>
         <el-col :span="3">
           <div class="title">
-            <!--数据分析系统-->
+            <!--ETA数据分析系统-->
             <img src="../../assets/images/htlogo.png" class="logo" />
           </div>
         </el-col>

@@ -5,6 +5,12 @@ import App from './App.vue'
 //import VueResource from 'vue-resource';
 import axios from 'axios'
 import router from './Router/index.js';
+import * as customFilter from './util/filter.js'
+
+/*过滤器*/
+Object.keys(customFilter).forEach(key => {
+  Vue.filter(key, customFilter[key])
+});
 
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 Vue.prototype.$http = axios;

@@ -1,30 +1,99 @@
 <template>
   <div>
-    <div class="chart" id="chart1"></div>
-    <div class="chart chart2" id="chart2"></div>
+    <div class="searchBlock">
+      <span>查询日期：</span>
+      <el-date-picker v-model="searchParam.time" type="daterange" align="right" unlink-panels range-separator="至"
+                      start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
+      </el-date-picker>
+      <el-button class="ml_10" @click="search">查询</el-button>
+    </div>
+    <el-row :gutter="20">
+      <el-col :span="12">
+        <div class="chart chart2" id="chart2"></div>
+        <div class="chart" id="chart1"></div>
+      </el-col>
+      <el-col :span="12">
+        <el-radio-group v-model="selectedType" @change="changeType">
+          <el-radio-button label="all">全部</el-radio-button>
+          <el-radio-button v-for="(type,index) in typeArr" :label="type">{{type}}</el-radio-button>
+        </el-radio-group>
+        <el-table :data="list">
+          <el-table-column prop="hostname" label="hostname" >
+          </el-table-column>
+          <el-table-column prop="Receive_interface" label="Receive_interface">
+          </el-table-column>
+          <el-table-column prop="Receive_interface" label="Receive_interface">
+          </el-table-column>
+          <el-table-column prop="from_ip" label="起始IP">
+          </el-table-column>
+          <el-table-column prop="to_ip" label="访问IP">
+          </el-table-column>
+          <el-table-column prop="begin_time" label="开始时间">
+          </el-table-column>
+          <el-table-column prop="end_time" label="结束时间">
+          </el-table-column>
+          <el-table-column prop="total_packets" label="total_packets">
+          </el-table-column>
+        </el-table>
+        <el-pagination @current-change="currentChange" :currentPage="pagination.currentPage" :total="pagination.total" :pageSize="pagination.pageSize">
+        </el-pagination>
+      </el-col>
+    </el-row>
+
+
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import echarts from 'echarts';
 import http from '~/http';
+import {trimStr} from '~/util/filter';
 
 export default {
   components: {
   },
   methods: {
-    test(){
-//      let postData = {
-//        token:'gh_e8a7b9983c24',
-//        url:'https://ht-jj-h5-test.htmimi.com/'
-//      };
-//      http.post('https://ht-mjwx-test.htmimi.com/index.php/Api/Wxapi/JsSignPackage', postData).then(function (suc) {
-//        console.log({suc:suc});
-//      })
+    getPieData(){
+      http.post('http://localhost:9300/public/index.php/log/Index/getData', {}).then(function (suc) {
+        console.log({suc:suc});
+        if(suc && suc.length){
+          let typeArr = [];
+          let data = [];
+          suc.map((v,i)=>{
+            typeArr.push(v['AttackType']);
+            data.push({value:v['count'], name:v['AttackType']})
+          });
+          this.typeArr = typeArr;
+          this.pieOptions.legend.data=typeArr;
+          this.pieOptions.series[0].data=data;
+          this.chart2.setOption(this.pieOptions);
+        }
+      }.bind(this))
     },
-    change(){
-      this.chart2Options.title.text = 'asdasd';
-      this.chart2.setOption(this.chart2Options);
+    getListData(){
+      let searchParam = {};
+      let time = this.searchParam.time;
+      if(time && time.length===2){
+        searchParam.beginTime = time[0].getTime()/1000;
+        searchParam.endTime = time[1].getTime()/1000;
+      }
+      searchParam.type = this.selectedType;
+      let pagination = this.pagination;
+      http.post('http://localhost:9300/public/index.php/log/Index/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
+        if(suc && suc.list){
+          this.list = suc.list;
+          this.pagination.total = suc.pagination.total;
+        }
+      }.bind(this))
+    },
+    currentChange(index){
+      let pagination = this.pagination;
+      pagination.currentPage = parseInt(index);
+      this.getListData();
+    },
+    changeType(label){
+      this.pagination.currentPage = 1;
+      this.getListData();
     },
     eConsole(param){
       console.log({param:param});
@@ -32,17 +101,60 @@ export default {
     initChart(){
       this.chart1 = echarts.init(document.getElementById('chart1'));
       this.chart2 = echarts.init(document.getElementById('chart2'));
-      this.chart1.setOption(this.chart1Options);
-      this.chart2.setOption(this.chart2Options);
-      this.chart2.on("click", this.eConsole);
+//      this.chart1.setOption(this.chart1Options);
+//      this.chart2.setOption(this.pieOptions);
+//      this.chart2.on("click", this.eConsole);
+    },
+    search(){
+
+      this.getListData();
     }
   },
   mounted:function(){
     this.initChart();
-    this.test();
+    this.getPieData();
+    this.getListData();
   },
   data () {
     return{
+      searchParam:{
+        time:[]
+      },
+      pickerOptions2: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      selectedType:'all',
+      list:[],
+      pagination:{
+        currentPage:1,
+        pageSize:10,
+        total:0
+      },
+      typeArr:[],
       chart1:'',
       chart2:'',
       chart1Options:{
@@ -58,15 +170,24 @@ export default {
         },
         yAxis: {},
         series: [{
-          name: '销量',
+          name: '销量1',
+          type: 'bar',
+//          itemStyle:{
+//            normal:{
+//              color:'#4ad2ff'
+//            }
+//          },
+          data: [5, 20, 36, 10, 10, 20]
+        },{
+          name: '销量2',
           type: 'bar',
           data: [5, 20, 36, 10, 10, 20]
         }]
       },
-      chart2Options:{
+      pieOptions:{
         title : {
-          text: '某站点用户访问来源',
-          subtext: '纯属虚构',
+          text: '防火墙攻击类型分布',
+          subtext: '',
           x:'center'
         },
         tooltip : {
@@ -76,20 +197,15 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+          data: []
         },
         series : [
           {
-            name: '访问来源',
+            name: '类型',
             type: 'pie',
             radius : '55%',
             center: ['50%', '60%'],
             data:[
-              {value:335, name:'直接访问'},
-              {value:310, name:'邮件营销'},
-              {value:234, name:'联盟广告'},
-              {value:135, name:'视频广告'},
-              {value:1548, name:'搜索引擎'}
             ],
             itemStyle: {
               emphasis: {
