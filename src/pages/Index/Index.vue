@@ -27,7 +27,7 @@
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-message"></i>导航一</template>
               <el-menu-item-group>
-                <el-menu-item index="1-1" :route="{path:'/index/page1'}">
+                <el-menu-item index="1-1" :route="{path:'/LogAnalyze/firewall'}">
                   选项1
                 </el-menu-item>
                 <el-menu-item index="1-2" :route="{path:'/index/page2'}">

@@ -4,9 +4,9 @@ import Login from '~/pages/Login/Login.vue'
 import Index from '~/pages/Index/Index.vue'
 import Page1 from '~/pages/Test/Page1.vue'
 import Page2 from '~/pages/TEST/Page2.vue'
+import firewallPage from '~/pages/LogAnalyze/firewallPage.vue'
 
 Vue.use(Router);
-
 
 export default new Router({
   routes: [
@@ -24,6 +24,15 @@ export default new Router({
           path: 'page2',
           component: Page2
         }
-      ] }
+      ]
+    },
+    { path: '/LogAnalyze', component: Index,
+      children: [
+        {
+          path: 'firewall',
+          component: firewallPage
+        }
+      ]
+    }
   ]
 });
