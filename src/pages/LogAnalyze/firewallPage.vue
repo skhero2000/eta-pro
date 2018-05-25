@@ -7,34 +7,67 @@
       </el-date-picker>
       <el-button class="ml_10" @click="search">查询</el-button>
     </div>
-    <el-row :gutter="20" >
+    <el-row :gutter="20" :class="{hide:!isSearch}">
       <el-col :span="12">
         <div class="chart chart2" id="chart2" :class="{show:pieOptions.legend.data.length>0}"></div>
-        <div class="chart" id="chart1"></div>
+        <div class="chart chart2" id="chart1"></div>
       </el-col>
       <el-col :span="12">
-        <div v-if="list.length>0">
-          <el-radio-group v-model="selectedType" @change="changeType">
-            <el-radio-button label="all">全部</el-radio-button>
-            <el-radio-button v-for="(type,index) in typeArr" :label="type">{{type}}</el-radio-button>
-          </el-radio-group>
-          <el-table :data="list">
-            <el-table-column prop="hostname" label="hostname" >
-            </el-table-column>
-            <el-table-column prop="from_ip" label="起始IP">
-            </el-table-column>
-            <el-table-column prop="to_ip" label="访问IP">
-            </el-table-column>
-            <el-table-column prop="begin_time" label="开始时间">
-            </el-table-column>
-            <el-table-column prop="end_time" label="结束时间">
-            </el-table-column>
-            <el-table-column prop="total_packets" label="total_packets">
-            </el-table-column>
-          </el-table>
-          <el-pagination @current-change="currentChange" :currentPage="pagination.currentPage" :total="pagination.total" :pageSize="pagination.pageSize">
-          </el-pagination>
+        <div class="mb_20">
+          <span>AttackType：</span>
+          <el-select v-model="selectedType" placeholder="请选择" @change="changeType">
+            <el-option key="all" label="全部" value="all">
+            </el-option>
+            <el-option v-for="(type,index) in typeArr" :key="type" :label="type" :value="type">
+            </el-option>
+          </el-select>
         </div>
+        <el-tabs v-model="activeName"  type="border-card">
+          <el-tab-pane label="告警统计" name="first">
+            <div>
+              <div>
+                <span>统计字段：</span>
+                <el-select v-model="selectedField" placeholder="请选择" @change="changeField">
+                  <el-option v-for="(type,index) in fieldArr" :key="type" :label="type" :value="type">
+                  </el-option>
+                </el-select>
+              </div>
+              <el-table :data="fieldList">
+                <el-table-column :prop="selectedField" :label="selectedField" >
+                </el-table-column>
+                <el-table-column prop="count" label="次数">
+                </el-table-column>
+              </el-table>
+            </div>
+          </el-tab-pane>
+          <el-tab-pane label="日志分析" name="second">
+            <div v-if="list.length>0">
+              <!--<el-radio-group v-model="selectedType" @change="changeType">-->
+              <!--<el-radio-button label="all">全部</el-radio-button>-->
+              <!--<el-radio-button v-for="(type,index) in typeArr" :label="type">{{type}}</el-radio-button>-->
+              <!--</el-radio-group>-->
+
+              <el-table :data="list">
+                <el-table-column prop="hostname" label="hostname" >
+                </el-table-column>
+                <el-table-column prop="from_ip" label="起始IP">
+                </el-table-column>
+                <el-table-column prop="to_ip" label="访问IP">
+                </el-table-column>
+                <el-table-column prop="begin_time" label="开始时间">
+                </el-table-column>
+                <el-table-column prop="end_time" label="结束时间">
+                </el-table-column>
+                <el-table-column prop="total_packets" label="total_packets">
+                </el-table-column>
+              </el-table>
+              <el-pagination @current-change="currentChange" :currentPage="pagination.currentPage" :total="pagination.total" :pageSize="pagination.pageSize">
+              </el-pagination>
+            </div>
+          </el-tab-pane>
+        </el-tabs>
+
+
       </el-col>
     </el-row>
     <div v-if="!isSearch">
@@ -62,7 +95,7 @@ export default {
         searchParam.endTime = time[1].getTime()/1000+24*60*60;
       }
 
-      http.post('http://localhost:9300/public/index.php/log/Index/getPieData', {searchParam:searchParam}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Index/getPieData', {searchParam:searchParam}).then(function (suc) {
         console.log({suc:suc});
         if(suc){
           let typeArr = [];
@@ -88,7 +121,7 @@ export default {
         param.endTime = time[1].getTime()/1000+24*60*60;
       }
 
-      http.post('http://localhost:9300/public/index.php/log/Index/getColumnData', {searchParam:param}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Index/getColumnData', {searchParam:param}).then(function (suc) {
         if(suc && suc.length){
           let xAxis = [], series=[], legend =[];
           suc.map((v,i)=>{
@@ -144,6 +177,21 @@ export default {
         }
       }.bind(this))
     },
+    getFieldListData(){
+      let searchParam = {};
+      let time = this.searchParam.time;
+      if(time && time.length===2){
+        searchParam.beginTime = time[0].getTime()/1000;
+        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+      }
+      searchParam.field = this.selectedField;
+      searchParam.type = this.selectedType;
+      http.post(this.baseUrl + '/log/Index/getFieldList', {searchParam:searchParam}).then(function (suc) {
+        if(suc){
+          this.fieldList = suc;
+        }
+      }.bind(this))
+    },
     getListData(){
       let searchParam = {};
       let time = this.searchParam.time;
@@ -153,7 +201,7 @@ export default {
       }
       searchParam.type = this.selectedType;
       let pagination = this.pagination;
-      http.post('http://localhost:9300/public/index.php/log/Index/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Index/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
         if(suc && suc.list){
           this.list = suc.list;
           this.pagination.total = suc.pagination.total;
@@ -165,9 +213,15 @@ export default {
       pagination.currentPage = parseInt(index);
       this.getListData();
     },
+    /*日志-改变类型*/
     changeType(label){
       this.pagination.currentPage = 1;
       this.getListData();
+      this.getFieldListData();
+    },
+    /*告警-改变字段*/
+    changeField(label){
+      this.getFieldListData();
     },
     checkedType(param){
       console.log({param:param});
@@ -190,6 +244,7 @@ export default {
       this.getPieData();
       this.getColumnData();
       this.getListData();
+      this.getFieldListData();
     }
   },
   mounted:function(){
@@ -200,6 +255,11 @@ export default {
   },
   data () {
     return{
+      baseUrl: 'http://' + location.hostname + ':9300/public/index.php',
+      activeName:'first',
+      fieldArr:['hostname','Receive_Interface','from_ip','to_ip'],
+      selectedField:'hostname',
+      fieldList:[],
       searchParam:{
         time:[]
       },
@@ -292,5 +352,4 @@ export default {
 }
 </script>
 <style scoped>
-  .chart2{ width: 500px; height: 400px; margin: 0 auto;}
 </style>

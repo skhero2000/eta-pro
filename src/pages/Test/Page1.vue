@@ -18,21 +18,15 @@
           <el-radio-button v-for="(type,index) in typeArr" :label="type">{{type}}</el-radio-button>
         </el-radio-group>
         <el-table :data="list">
-          <el-table-column prop="hostname" label="hostname" >
+          <el-table-column prop="name" label="姓名" >
           </el-table-column>
-          <el-table-column prop="Receive_interface" label="Receive_interface">
+          <el-table-column prop="sex" label="性别">
           </el-table-column>
-          <el-table-column prop="Receive_interface" label="Receive_interface">
+          <el-table-column prop="tel" label="电话">
           </el-table-column>
-          <el-table-column prop="from_ip" label="起始IP">
+          <el-table-column prop="age" label="年龄">
           </el-table-column>
-          <el-table-column prop="to_ip" label="访问IP">
-          </el-table-column>
-          <el-table-column prop="begin_time" label="开始时间">
-          </el-table-column>
-          <el-table-column prop="end_time" label="结束时间">
-          </el-table-column>
-          <el-table-column prop="total_packets" label="total_packets">
+          <el-table-column prop="email" label="email">
           </el-table-column>
         </el-table>
         <el-pagination @current-change="currentChange" :currentPage="pagination.currentPage" :total="pagination.total" :pageSize="pagination.pageSize">
@@ -53,43 +47,9 @@ export default {
   components: {
   },
   methods: {
-    getPieData(){
-      http.post('http://localhost:9300/public/index.php/log/Index/getData', {}).then(function (suc) {
-        console.log({suc:suc});
-        if(suc && suc.length){
-          let typeArr = [];
-          let data = [];
-          suc.map((v,i)=>{
-            typeArr.push(v['AttackType']);
-            data.push({value:v['count'], name:v['AttackType']})
-          });
-          this.typeArr = typeArr;
-          this.pieOptions.legend.data=typeArr;
-          this.pieOptions.series[0].data=data;
-          this.chart2.setOption(this.pieOptions);
-        }
-      }.bind(this))
-    },
-    getListData(){
-      let searchParam = {};
-      let time = this.searchParam.time;
-      if(time && time.length===2){
-        searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000;
-      }
-      searchParam.type = this.selectedType;
-      let pagination = this.pagination;
-      http.post('http://localhost:9300/public/index.php/log/Index/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
-        if(suc && suc.list){
-          this.list = suc.list;
-          this.pagination.total = suc.pagination.total;
-        }
-      }.bind(this))
-    },
     currentChange(index){
       let pagination = this.pagination;
       pagination.currentPage = parseInt(index);
-      this.getListData();
     },
     changeType(label){
       this.pagination.currentPage = 1;
@@ -107,7 +67,6 @@ export default {
     },
     search(){
 
-      this.getListData();
     }
   },
   mounted:function(){
@@ -182,12 +141,12 @@ export default {
         },{
           name: '销量2',
           type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
+          data: [15, 10, 30, 5, 8, 13]
         }]
       },
       pieOptions:{
         title : {
-          text: '防火墙攻击类型分布',
+          text: '饼图',
           subtext: '',
           x:'center'
         },
@@ -211,11 +170,6 @@ export default {
               {name:'b', value:2},
               {name:'c', value:3}
             ],
-            label: {
-              normal: {
-                show: false
-              }
-            },
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

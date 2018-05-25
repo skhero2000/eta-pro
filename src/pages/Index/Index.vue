@@ -6,6 +6,7 @@
           <div class="title">
             <!--ETA数据分析系统-->
             <img src="../../assets/images/htlogo.png" class="logo" />
+            <!--<img src="../../assets/images/eta-logo.png" class="logo" />-->
           </div>
         </el-col>
         <el-col :span="21">
@@ -25,13 +26,13 @@
           <el-menu default-active="1" background-color="#1d2833" text-color="#fff" active-text-color="#ffd04b"
                    @open="handleOpen" @close="handleClose" :router="true">
             <el-submenu index="1">
-              <template slot="title"><i class="el-icon-message"></i>导航一</template>
+              <template slot="title"><i class="el-icon-message"></i>日志分析</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" :route="{path:'/LogAnalyze/firewall'}">
-                  选项1
+                  防火墙攻击分析
                 </el-menu-item>
                 <el-menu-item index="1-2" :route="{path:'/LogAnalyze/IPS'}">
-                  选项2
+                  IPS攻击分析
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
