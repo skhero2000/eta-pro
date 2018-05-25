@@ -103,3 +103,5 @@ header .title{ color:#fff; text-align: center; line-height: 60px; font-size: 16p
 .el-radio-group{ font-size: 0;}
 .searchBlock{ padding: 10px; border: 1px solid #eee; margin-bottom: 20px; }
 .searchBlock>span{ color:#5f5f5f; font-size: 14px;}
+.searchIcon{ background: url(../images/search.jpg) no-repeat top center; display: inline-block; background-size: 100px 100px;
+    margin: 100px 0 0 100px; width: 200px; min-height: 300px; padding-top: 120px;color:#ccc; text-align: center; }

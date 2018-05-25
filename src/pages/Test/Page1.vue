@@ -101,9 +101,9 @@ export default {
     initChart(){
       this.chart1 = echarts.init(document.getElementById('chart1'));
       this.chart2 = echarts.init(document.getElementById('chart2'));
-//      this.chart1.setOption(this.chart1Options);
-//      this.chart2.setOption(this.pieOptions);
-//      this.chart2.on("click", this.eConsole);
+      this.chart1.setOption(this.chart1Options);
+      this.chart2.setOption(this.pieOptions);
+      this.chart2.on("click", this.eConsole);
     },
     search(){
 
@@ -112,8 +112,8 @@ export default {
   },
   mounted:function(){
     this.initChart();
-    this.getPieData();
-    this.getListData();
+//    this.getPieData();
+//    this.getListData();
   },
   data () {
     return{
@@ -159,11 +159,12 @@ export default {
       chart2:'',
       chart1Options:{
         title: {
-          text: 'ECharts'
+          text: 'ECharts',
+
         },
         tooltip: {},
         legend: {
-          data:['销量']
+          data:['销量1', '销量2']
         },
         xAxis: {
           data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
@@ -197,7 +198,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
-          data: []
+          data: ['a', 'b','c']
         },
         series : [
           {
@@ -206,7 +207,15 @@ export default {
             radius : '55%',
             center: ['50%', '60%'],
             data:[
+              {name:'a', value:1},
+              {name:'b', value:2},
+              {name:'c', value:3}
             ],
+            label: {
+              normal: {
+                show: false
+              }
+            },
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,

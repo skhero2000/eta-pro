@@ -19,17 +19,19 @@
             <el-radio-button v-for="(type,index) in typeArr" :label="type">{{type}}</el-radio-button>
           </el-radio-group>
           <el-table :data="list">
-            <el-table-column prop="hostname" label="hostname" >
+            <el-table-column prop="danger_degree" label="danger_degree" >
             </el-table-column>
-            <el-table-column prop="from_ip" label="起始IP">
+            <el-table-column prop="event" label="event">
             </el-table-column>
-            <el-table-column prop="to_ip" label="访问IP">
+            <el-table-column prop="src_addr" label="src_addr">
             </el-table-column>
-            <el-table-column prop="begin_time" label="开始时间">
+            <el-table-column prop="src_port" label="src_port">
             </el-table-column>
-            <el-table-column prop="end_time" label="结束时间">
+            <el-table-column prop="dst_addr" label="dst_addr">
             </el-table-column>
-            <el-table-column prop="total_packets" label="total_packets">
+            <el-table-column prop="dst_port" label="dst_port">
+            </el-table-column>
+            <el-table-column prop="proto" label="proto">
             </el-table-column>
           </el-table>
           <el-pagination @current-change="currentChange" :currentPage="pagination.currentPage" :total="pagination.total" :pageSize="pagination.pageSize">
@@ -62,21 +64,21 @@ export default {
         searchParam.endTime = time[1].getTime()/1000+24*60*60;
       }
 
-      http.post('http://localhost:9300/public/index.php/log/Index/getPieData', {searchParam:searchParam}).then(function (suc) {
+      http.post('http://localhost:9300/public/index.php/log/Ipstime/getPieData', {searchParam:searchParam}).then(function (suc) {
         console.log({suc:suc});
         if(suc){
           let typeArr = [];
           let data = [];
           suc.map((v,i)=>{
-            typeArr.push(v['AttackType']);
-            data.push({value:v['count'], name:v['AttackType']})
+            typeArr.push(v['event']);
+            data.push({value:v['count'], name:v['event']})
           });
           this.typeArr = typeArr;
           this.pieOptions.legend.data=typeArr;
           this.pieOptions.series[0].data=data;
           this.chart2.setOption(this.pieOptions);
 
-//          this.chart1.setOption(this.columnOptions);
+//          this.chart1.setOption(this.lineOptions);
         }
       }.bind(this))
     },
@@ -88,7 +90,7 @@ export default {
         param.endTime = time[1].getTime()/1000+24*60*60;
       }
 
-      http.post('http://localhost:9300/public/index.php/log/Index/getColumnData', {searchParam:param}).then(function (suc) {
+      http.post('http://localhost:9300/public/index.php/log/Ipstime/getColumnData', {searchParam:param}).then(function (suc) {
         if(suc && suc.length){
           let xAxis = [], series=[], legend =[];
           suc.map((v,i)=>{
@@ -97,15 +99,15 @@ export default {
               v['value'].map((vv,vi)=>{
                 let flag = true;
                 series.map((sv,si)=>{
-                  if(sv['name'] === vv['AttackType']){
+                  if(sv['name'] === vv['event']){
                     flag = false;
                   }
                 });
                 if(flag){
-                  legend.push(vv['AttackType']);
+                  legend.push(vv['event']);
                   series.push({
-                    name: vv['AttackType'],
-                    type: 'bar',
+                    name: vv['event'],
+                    type: 'line',
                     data: []
                   })
                 }
@@ -118,7 +120,7 @@ export default {
               if(v['value'] && v['value'].length>0){
                 let flag = true, index=-1;
                 v['value'].map((vv,vi)=>{
-                  if(sv['name'] === vv['AttackType']){
+                  if(sv['name'] === vv['event']){
                     flag = false;
                     index = vi;
                   }
@@ -136,11 +138,11 @@ export default {
           });
 
           console.log({xAxis, series, legend});
-          this.columnOptions.legend.data=legend;
-          this.columnOptions.xAxis.data=xAxis;
-          this.columnOptions.series=series;
+          this.lineOptions.legend.data=legend;
+          this.lineOptions.xAxis.data=xAxis;
+          this.lineOptions.series=series;
 //
-          this.chart1.setOption(this.columnOptions);
+          this.chart1.setOption(this.lineOptions);
         }
       }.bind(this))
     },
@@ -153,7 +155,7 @@ export default {
       }
       searchParam.type = this.selectedType;
       let pagination = this.pagination;
-      http.post('http://localhost:9300/public/index.php/log/Index/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
+      http.post('http://localhost:9300/public/index.php/log/Ipstime/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
         if(suc && suc.list){
           this.list = suc.list;
           this.pagination.total = suc.pagination.total;
@@ -241,7 +243,7 @@ export default {
       typeArr:[],
       chart1:'',
       chart2:'',
-      columnOptions:{
+      lineOptions:{
         title: {
         },
         tooltip: {},
@@ -256,7 +258,7 @@ export default {
       },
       pieOptions:{
         title : {
-          text: '防火墙攻击类型分布',
+          text: 'IPS事件类型分布TOP10',
           subtext: '',
           x:'center'
         },
@@ -277,6 +279,11 @@ export default {
             center: ['50%', '60%'],
             data:[
             ],
+            label: {
+              normal: {
+                show: false
+              }
+            },
             itemStyle: {
               emphasis: {
                 shadowBlur: 10,
@@ -292,5 +299,5 @@ export default {
 }
 </script>
 <style scoped>
-  .chart2{ width: 500px; height: 400px; margin: 0 auto;}
+  .chart2{  height: 450px; margin: 0 auto; width: 100%;}
 </style>
