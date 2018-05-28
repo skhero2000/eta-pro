@@ -323,7 +323,7 @@ export default {
         title : {
           text: 'IPS事件类型分布TOP10',
           subtext: '',
-          x:'right'
+          x:'center'
         },
         tooltip : {
           trigger: 'item',
@@ -332,6 +332,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
+          top:50,
           width:50,
           data: []
         },
