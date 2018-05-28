@@ -24,7 +24,7 @@
         </div>
         <el-tabs v-model="activeName"  type="border-card">
           <el-tab-pane label="告警统计" name="first">
-            <div>
+            <div class="alarmPart">
               <div>
                 <span>统计字段：</span>
                 <el-select v-model="selectedField" placeholder="请选择" @change="changeField">
@@ -40,7 +40,9 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="日志分析" name="second">
+        </el-tabs>
+        <el-tabs v-model="activeName"  type="border-card" class="mt_10">
+          <el-tab-pane label="日志分析" name="first">
             <div v-if="list.length>0">
               <el-table :data="list">
                 <el-table-column prop="danger_degree" label="danger_degree" >
@@ -63,7 +65,6 @@
             </div>
           </el-tab-pane>
         </el-tabs>
-
 
       </el-col>
     </el-row>
@@ -292,7 +293,7 @@ export default {
       list:[],
       pagination:{
         currentPage:1,
-        pageSize:8,
+        pageSize:4,
         total:0
       },
       typeArr:[],
@@ -302,6 +303,13 @@ export default {
         title: {
         },
         tooltip: {},
+        grid: {
+          top:'40%',
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
         legend: {
           data:[]
         },
@@ -315,7 +323,7 @@ export default {
         title : {
           text: 'IPS事件类型分布TOP10',
           subtext: '',
-          x:'center'
+          x:'right'
         },
         tooltip : {
           trigger: 'item',
@@ -324,6 +332,7 @@ export default {
         legend: {
           orient: 'vertical',
           left: 'left',
+          width:50,
           data: []
         },
         series : [
@@ -331,7 +340,8 @@ export default {
             name: '类型',
             type: 'pie',
             radius : '55%',
-            center: ['50%', '60%'],
+            x:'right',
+            center: ['80%', '40%'],
             data:[
             ],
             label: {

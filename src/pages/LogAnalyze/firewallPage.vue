@@ -24,7 +24,7 @@
         </div>
         <el-tabs v-model="activeName"  type="border-card">
           <el-tab-pane label="告警统计" name="first">
-            <div>
+            <div class="alarmPart">
               <div>
                 <span>统计字段：</span>
                 <el-select v-model="selectedField" placeholder="请选择" @change="changeField">
@@ -40,7 +40,9 @@
               </el-table>
             </div>
           </el-tab-pane>
-          <el-tab-pane label="日志分析" name="second">
+        </el-tabs>
+        <el-tabs v-model="activeName"  type="border-card" class="mt_10">
+          <el-tab-pane label="日志分析" name="first">
             <div v-if="list.length>0">
               <!--<el-radio-group v-model="selectedType" @change="changeType">-->
               <!--<el-radio-button label="all">全部</el-radio-button>-->
@@ -295,7 +297,7 @@ export default {
       list:[],
       pagination:{
         currentPage:1,
-        pageSize:8,
+        pageSize:4,
         total:0
       },
       typeArr:[],

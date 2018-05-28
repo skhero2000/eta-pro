@@ -5,8 +5,8 @@
         <el-col :span="3">
           <div class="title">
             <!--ETA数据分析系统-->
-            <img src="../../assets/images/htlogo.png" class="logo" />
-            <!--<img src="../../assets/images/eta-logo.png" class="logo" />-->
+            <!--<img src="../../assets/images/htlogo.png" class="logo" />-->
+            <img src="../../assets/images/eta-logo.png" class="logo" />
           </div>
         </el-col>
         <el-col :span="21">
