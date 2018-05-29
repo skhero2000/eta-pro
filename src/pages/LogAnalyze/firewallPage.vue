@@ -258,6 +258,7 @@ export default {
   data () {
     return{
       baseUrl: 'http://' + location.hostname + ':9300/public/index.php',
+//      baseUrl: 'http://193.112.162.51:81/eta/public/index.php?s=',
       activeName:'first',
       fieldArr:['hostname','Receive_Interface','from_ip','to_ip'],
       selectedField:'hostname',
