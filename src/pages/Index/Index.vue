@@ -26,7 +26,7 @@
           <el-menu default-active="1" background-color="#1d2833" text-color="#fff" active-text-color="#ffd04b"
                    @open="handleOpen" @close="handleClose" :router="true">
             <el-submenu index="1">
-              <template slot="title"><i class="el-icon-message"></i>日志分析</template>
+              <template slot="title"><i class="el-icon-view"></i>日志分析</template>
               <el-menu-item-group>
                 <el-menu-item index="1-1" :route="{path:'/LogAnalyze/firewall'}">
                   防火墙攻击分析
@@ -36,8 +36,18 @@
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="2-1" :route="{path:'/index/page1'}"><i class="el-icon-menu"></i>导航二</el-menu-item>
-            <el-menu-item index="3-1" :route="{path:'/index/page2'}"><i class="el-icon-setting"></i>导航三</el-menu-item>
+            <el-submenu index="2">
+              <template slot="title"><i class="el-icon-tickets"></i>日志详情</template>
+              <el-menu-item-group>
+                <el-menu-item index="2-1" :route="{path:'/LogSearch/firewall'}">
+                  防火墙攻击日志
+                </el-menu-item>
+                <el-menu-item index="2-2" :route="{path:'/LogSearch/IPS'}">
+                  IPS攻击日志
+                </el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
+            <!--<el-menu-item index="3-1" :route="{path:'/index/page2'}"><i class="el-icon-setting"></i>导航三</el-menu-item>-->
           </el-menu>
         </el-col>
         <el-col :span="21" class="content">

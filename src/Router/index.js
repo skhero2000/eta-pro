@@ -6,6 +6,8 @@ import Page1 from '~/pages/Test/Page1.vue'
 import Page2 from '~/pages/TEST/Page2.vue'
 import firewallPage from '~/pages/LogAnalyze/firewallPage.vue'
 import IPSPage from '~/pages/LogAnalyze/IPS.vue'
+import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
+import IPSSearch from '~/pages/LogSearch/IPS.vue'
 
 Vue.use(Router);
 
@@ -36,6 +38,18 @@ export default new Router({
         {
           path: 'IPS',
           component: IPSPage
+        }
+      ]
+    },
+    { path: '/LogSearch', component: Index,
+      children: [
+        {
+          path: 'firewall',
+          component: firewallSearch
+        },
+        {
+          path: 'IPS',
+          component: IPSSearch
         }
       ]
     }
