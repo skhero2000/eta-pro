@@ -80,8 +80,8 @@ export default {
   },
   data () {
     return{
-      baseUrl: 'http://' + location.hostname + ':9300/public/index.php?s=',
-//      baseUrl: 'http://193.112.162.51:81/eta/public/index.php?s=',
+//      baseUrl: 'http://' + location.hostname + ':9300/public/index.php?s=',
+      baseUrl: 'http://193.112.162.51:81/eta/public/index.php?s=',
       tableHeight:document.documentElement.clientHeight-200,
       searchParam:{
         time:[],

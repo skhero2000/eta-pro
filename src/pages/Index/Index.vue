@@ -34,6 +34,9 @@
                 <el-menu-item index="1-2" :route="{path:'/LogAnalyze/IPS'}">
                   IPS攻击分析
                 </el-menu-item>
+                <el-menu-item index="1-3" :route="{path:'/LogAnalyze/pwdCracking'}">
+                  IPS攻击分析
+                </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
