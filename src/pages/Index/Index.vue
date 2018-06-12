@@ -53,7 +53,9 @@
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <!--<el-menu-item index="3-1" :route="{path:'/index/page2'}"><i class="el-icon-setting"></i>导航三</el-menu-item>-->
+            <el-menu-item index="3-1" @click="jumpDiyUrl1">
+              <i class="el-icon-setting"></i>zabbix系统
+            </el-menu-item>
           </el-menu>
         </el-col>
         <el-col :span="21" class="content">
@@ -69,8 +71,8 @@
 <script type="text/ecmascript-6">
 export default {
   methods: {
-    handleOpen(){
-
+    jumpDiyUrl1(){
+      window.location.href="http://193.112.135.159/zabbix/httpdetails.php?httptestid=2";
     },
     handleClose(){}
   },

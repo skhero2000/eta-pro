@@ -5,7 +5,7 @@
       <el-date-picker v-model="searchParam.time" type="datetimerange" align="right" unlink-panels range-separator="至"
                       start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
       </el-date-picker>
-      <span class="ml_10">事件类型：</span>
+      <span class="ml_10">Account：</span>
       <el-input v-model="searchParam.account" placeholder="请输入account"></el-input>
       <el-button class="ml_10" @click="search">查询</el-button>
     </div>
