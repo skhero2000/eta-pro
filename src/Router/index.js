@@ -9,6 +9,7 @@ import IPSPage from '~/pages/LogAnalyze/IPS.vue'
 import pwdCrackingPage from '~/pages/LogAnalyze/pwdCracking.vue'
 import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
 import IPSSearch from '~/pages/LogSearch/IPS.vue'
+import pwdCrackingSearch from '~/pages/LogSearch/pwdCracking.vue'
 
 
 Vue.use(Router);
@@ -56,6 +57,10 @@ export default new Router({
         {
           path: 'IPS',
           component: IPSSearch
+        },
+        {
+          path: 'pwdCracking',
+          component: pwdCrackingSearch
         }
       ]
     }

@@ -2,7 +2,7 @@
   <div>
     <div class="searchBlock">
       <span>查询日期：</span>
-      <el-date-picker v-model="searchParam.time" type="daterange" align="right" unlink-panels range-separator="至"
+      <el-date-picker v-model="searchParam.time" type="datetimerange" align="right" unlink-panels range-separator="至"
                       start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
       </el-date-picker>
       <el-button class="ml_10" @click="search">查询</el-button>
@@ -94,7 +94,7 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
 
       http.post(this.baseUrl + '/log/Index/getPieData', {searchParam:searchParam}).then(function (suc) {
@@ -120,7 +120,7 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         param.beginTime = time[0].getTime()/1000;
-        param.endTime = time[1].getTime()/1000+24*60*60;
+        param.endTime = time[1].getTime()/1000;
       }
 
       http.post(this.baseUrl + '/log/Index/getColumnData', {searchParam:param}).then(function (suc) {
@@ -140,7 +140,7 @@ export default {
                   legend.push(vv['AttackType']);
                   series.push({
                     name: vv['AttackType'],
-                    type: 'bar',
+                    type: 'line',
                     data: []
                   })
                 }
@@ -184,7 +184,7 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
       searchParam.field = this.selectedField;
       searchParam.type = this.selectedType;
@@ -199,7 +199,7 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
       searchParam.type = this.selectedType;
       let pagination = this.pagination;
@@ -257,8 +257,7 @@ export default {
   },
   data () {
     return{
-//      baseUrl: 'http://' + location.hostname + ':9300/public/index.php?s=',
-      baseUrl: 'http://193.112.162.51:81/eta/public/index.php?s=',
+      baseUrl: 'http://' + location.hostname + ':81/eta/public/index.php?s=',
       activeName:'first',
       fieldArr:['hostname','Receive_Interface','from_ip','to_ip'],
       selectedField:'hostname',

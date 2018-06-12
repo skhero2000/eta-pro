@@ -2,7 +2,7 @@
   <div>
     <div class="searchBlock">
       <span>查询日期：</span>
-      <el-date-picker v-model="searchParam.time" type="daterange" align="right" unlink-panels range-separator="至"
+      <el-date-picker v-model="searchParam.time" type="datetimerange" align="right" unlink-panels range-separator="至"
                       start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
       </el-date-picker>
       <span class="ml_10">攻击类型：</span>
@@ -54,7 +54,7 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
       searchParam.AttackType = this.searchParam.AttackType;
       let pagination = this.pagination;
@@ -86,8 +86,7 @@ export default {
   },
   data () {
     return{
-//      baseUrl: 'http://' + location.hostname + ':9300/public/index.php?s=',
-      baseUrl: 'http://193.112.162.51:81/eta/public/index.php?s=',
+      baseUrl: 'http://' + location.hostname + ':81/eta/public/index.php?s=',
       tableHeight:document.documentElement.clientHeight-200,
       pickerOptions2: {
         shortcuts: [{

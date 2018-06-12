@@ -2,7 +2,7 @@
   <div>
     <div class="searchBlock">
       <span>查询日期：</span>
-      <el-date-picker v-model="searchParam.time" type="daterange" align="right" unlink-panels range-separator="至"
+      <el-date-picker v-model="searchParam.time" type="datetimerange" align="right" unlink-panels range-separator="至"
                       start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions2">
       </el-date-picker>
       <el-button class="ml_10" @click="search">查询</el-button>
@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="12">
         <div class="mb_20">
-          <span>Event：</span>
+          <span>account：</span>
           <el-select v-model="selectedType" placeholder="请选择" @change="changeType">
             <el-option key="all" label="全部" value="all">
             </el-option>
@@ -45,19 +45,13 @@
           <el-tab-pane label="日志分析" name="first">
             <div v-if="list.length>0">
               <el-table :data="list">
-                <el-table-column prop="danger_degree" label="danger_degree" >
+                <el-table-column prop="info" label="info" >
                 </el-table-column>
-                <el-table-column prop="event" label="event">
+                <el-table-column prop="account" label="account">
                 </el-table-column>
-                <el-table-column prop="src_addr" label="src_addr">
+                <el-table-column prop="rtcode" label="rtcode">
                 </el-table-column>
-                <el-table-column prop="src_port" label="src_port">
-                </el-table-column>
-                <el-table-column prop="dst_addr" label="dst_addr">
-                </el-table-column>
-                <el-table-column prop="dst_port" label="dst_port">
-                </el-table-column>
-                <el-table-column prop="proto" label="proto">
+                <el-table-column prop="time" label="time">
                 </el-table-column>
               </el-table>
               <el-pagination @current-change="currentChange" :currentPage="pagination.currentPage" :total="pagination.total" :pageSize="pagination.pageSize">
@@ -90,17 +84,17 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
 
-      http.post(this.baseUrl + '/log/Ipstime/getPieData', {searchParam:searchParam}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Password/getPieData', {searchParam:searchParam}).then(function (suc) {
         console.log({suc:suc});
         if(suc){
           let typeArr = [];
           let data = [];
           suc.map((v,i)=>{
-            typeArr.push(v['event']);
-            data.push({value:v['count'], name:v['event']})
+            typeArr.push(v['account']);
+            data.push({value:v['count'], name:v['account']})
           });
           this.typeArr = typeArr;
           this.pieOptions.legend.data=typeArr;
@@ -116,10 +110,10 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         param.beginTime = time[0].getTime()/1000;
-        param.endTime = time[1].getTime()/1000+24*60*60;
+        param.endTime = time[1].getTime()/1000;
       }
 
-      http.post(this.baseUrl + '/log/Ipstime/getColumnData', {searchParam:param}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Password/getColumnData', {searchParam:param}).then(function (suc) {
         if(suc && suc.length){
           let xAxis = [], series=[], legend =[];
           suc.map((v,i)=>{
@@ -128,14 +122,14 @@ export default {
               v['value'].map((vv,vi)=>{
                 let flag = true;
                 series.map((sv,si)=>{
-                  if(sv['name'] === vv['event']){
+                  if(sv['name'] === vv['account']){
                     flag = false;
                   }
                 });
                 if(flag){
-                  legend.push(vv['event']);
+                  legend.push(vv['account']);
                   series.push({
-                    name: vv['event'],
+                    name: vv['account'],
                     type: 'line',
                     data: []
                   })
@@ -149,7 +143,7 @@ export default {
               if(v['value'] && v['value'].length>0){
                 let flag = true, index=-1;
                 v['value'].map((vv,vi)=>{
-                  if(sv['name'] === vv['event']){
+                  if(sv['name'] === vv['account']){
                     flag = false;
                     index = vi;
                   }
@@ -180,11 +174,11 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
       searchParam.field = this.selectedField;
       searchParam.type = this.selectedType;
-      http.post(this.baseUrl + '/log/Ipstime/getFieldList', {searchParam:searchParam}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Password/getFieldList', {searchParam:searchParam}).then(function (suc) {
         if(suc){
           this.fieldList = suc;
         }
@@ -195,11 +189,11 @@ export default {
       let time = this.searchParam.time;
       if(time && time.length===2){
         searchParam.beginTime = time[0].getTime()/1000;
-        searchParam.endTime = time[1].getTime()/1000+24*60*60;
+        searchParam.endTime = time[1].getTime()/1000;
       }
       searchParam.type = this.selectedType;
       let pagination = this.pagination;
-      http.post(this.baseUrl + '/log/Ipstime/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Password/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
         if(suc && suc.list){
           this.list = suc.list;
           this.pagination.total = suc.pagination.total;
@@ -253,11 +247,10 @@ export default {
   },
   data () {
     return{
-//      baseUrl: 'http://' + location.hostname + ':9300/public/index.php?s=',
-      baseUrl: 'http://193.112.162.51:81/eta/public/index.php?s=',
+      baseUrl: 'http://' + location.hostname + ':81/eta/public/index.php?s=',
       activeName:'first',
-      fieldArr:['danger_degree','src_addr','dst_addr','dst_port','proto'],
-      selectedField:'danger_degree',
+      fieldArr:['info','rtcode'],
+      selectedField:'info',
       fieldList:[],
       searchParam:{
         time:[]
@@ -322,7 +315,7 @@ export default {
       },
       pieOptions:{
         title : {
-          text: 'IPS事件类型分布TOP10',
+          text: '账户名分布Top10',
           subtext: '',
           x:'center'
         },

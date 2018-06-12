@@ -14,7 +14,7 @@
                    text-color="#fff"
                    active-text-color="#ffd04b" mode="horizontal">
             <el-menu-item index="1">处理中心</el-menu-item>
-            <el-menu-item index="2" >消息中心</el-menu-item>
+            <el-menu-item index="2">消息中心</el-menu-item>
             <el-menu-item index="3">帮助中心</el-menu-item>
           </el-menu>
         </el-col>
@@ -35,7 +35,7 @@
                   IPS攻击分析
                 </el-menu-item>
                 <el-menu-item index="1-3" :route="{path:'/LogAnalyze/pwdCracking'}">
-                  IPS攻击分析
+                  口令爆破
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
@@ -46,6 +46,9 @@
                   防火墙攻击日志
                 </el-menu-item>
                 <el-menu-item index="2-2" :route="{path:'/LogSearch/IPS'}">
+                  IPS攻击日志
+                </el-menu-item>
+                <el-menu-item index="2-3" :route="{path:'/LogSearch/pwdCracking'}">
                   IPS攻击日志
                 </el-menu-item>
               </el-menu-item-group>
