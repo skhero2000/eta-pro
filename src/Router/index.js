@@ -10,6 +10,7 @@ import pwdCrackingPage from '~/pages/LogAnalyze/pwdCracking.vue'
 import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
 import IPSSearch from '~/pages/LogSearch/IPS.vue'
 import pwdCrackingSearch from '~/pages/LogSearch/pwdCracking.vue'
+import FramePage from '~/pages/Frame/Frame.vue'
 
 
 Vue.use(Router);
@@ -61,6 +62,14 @@ export default new Router({
         {
           path: 'pwdCracking',
           component: pwdCrackingSearch
+        }
+      ]
+    },
+    { path: '/Frame', component: Index,
+      children: [
+        {
+          path: 'Index/:url',
+          component: FramePage
         }
       ]
     }

@@ -23,8 +23,7 @@
     <div class="container">
       <el-row>
         <el-col :span="3" class="subMenu">
-          <el-menu default-active="1" background-color="#1d2833" text-color="#fff" active-text-color="#ffd04b"
-                   @open="handleOpen" @close="handleClose" :router="true">
+          <el-menu default-active="1" background-color="#1d2833" text-color="#fff" active-text-color="#ffd04b" @close="handleClose" :router="true">
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-view"></i>日志分析</template>
               <el-menu-item-group>
@@ -53,9 +52,23 @@
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
-            <el-menu-item index="3-1" @click="jumpDiyUrl1">
-              <i class="el-icon-setting"></i>zabbix系统
-            </el-menu-item>
+            <el-submenu index="3">
+              <template slot="title"><i class="el-icon-setting"></i>eta系统</template>
+              <el-menu-item-group>
+                <el-menu-item index="3-1" :route="{path:'/Frame/Index/http%3A%2F%2F193.112.135.159%2Fzabbix%2Fzabbix.php%3Faction%3Ddashboard.view%26ddreset%3D1'}">
+                  仪表版
+                </el-menu-item>
+                <el-menu-item index="3-2" :route="{path:'/Frame/Index/http%3A%2F%2F193.112.135.159%2Fzabbix%2Fzabbix.php%3Faction%3Dweb.view%26ddreset%3D1'}">
+                  页面检测
+                </el-menu-item>
+                <el-menu-item index="3-3" :route="{path:'/Frame/Index/http%3A%2F%2F193.112.135.159%2Fzabbix%2Fcharts.php%3Fddreset%3D1'}">
+                  TCP统计
+                </el-menu-item>
+                <el-menu-item index="3-4" :route="{path:'/Frame/Index/http%3A%2F%2F193.112.135.159%2Fzabbix%2Fzabbix.php%3Faction%3Dmap.view%26ddreset%3D1'}">
+                  主机拓扑
+                </el-menu-item>
+              </el-menu-item-group>
+            </el-submenu>
           </el-menu>
         </el-col>
         <el-col :span="21" class="content">
