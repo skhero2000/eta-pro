@@ -10,10 +10,13 @@ import IPSPage from '~/pages/LogAnalyze/IPS.vue'
 import pwdCrackingPage from '~/pages/LogAnalyze/pwdCracking.vue'
 import FramePage from '~/pages/Frame/Frame.vue'
 import AlarmStatisticPage from '~/pages/LogAnalyze/AlarmStatistic.vue'
+import CatalinaDatePage from '~/pages/LogAnalyze/catalinaDate.vue'
+
 
 import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
 import IPSSearch from '~/pages/LogSearch/IPS.vue'
 import pwdCrackingSearch from '~/pages/LogSearch/pwdCracking.vue'
+import catalinaDateSearch from '~/pages/LogSearch/catalinaDate.vue'
 
 
 Vue.use(Router);
@@ -53,6 +56,10 @@ export default new Router({
         {
           path: 'alarmStatistic',
           component: AlarmStatisticPage
+        },
+        {
+          path: 'catalinaDate',
+          component: CatalinaDatePage
         }
       ]
     },
@@ -69,6 +76,10 @@ export default new Router({
         {
           path: 'pwdCracking',
           component: pwdCrackingSearch
+        },
+        {
+          path: 'catalinaDate',
+          component: catalinaDateSearch
         }
       ]
     },

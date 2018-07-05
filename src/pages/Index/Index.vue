@@ -36,9 +36,12 @@
                 <el-menu-item index="1-3" :route="{path:'/LogAnalyze/pwdCracking'}">
                   口令爆破
                 </el-menu-item>
-                <el-menu-item index="1-4" :route="{path:'/LogAnalyze/alarmStatistic'}">
-                  告警统计
+                <el-menu-item index="1-4" :route="{path:'/LogAnalyze/catalinaDate'}">
+                  爆破账户
                 </el-menu-item>
+                <!--<el-menu-item index="1-4" :route="{path:'/LogAnalyze/alarmStatistic'}">-->
+                  <!--告警统计-->
+                <!--</el-menu-item>-->
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">
@@ -51,7 +54,10 @@
                   IPS攻击日志
                 </el-menu-item>
                 <el-menu-item index="2-3" :route="{path:'/LogSearch/pwdCracking'}">
-                  IPS攻击日志
+                  密码爆破日志
+                </el-menu-item>
+                <el-menu-item index="2-4" :route="{path:'/LogSearch/catalinaDate'}">
+                  文件上传日志
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
