@@ -36,6 +36,9 @@
                 <el-menu-item index="1-3" :route="{path:'/LogAnalyze/pwdCracking'}">
                   口令爆破
                 </el-menu-item>
+                <el-menu-item index="1-4" :route="{path:'/LogAnalyze/alarmStatistic'}">
+                  告警统计
+                </el-menu-item>
               </el-menu-item-group>
             </el-submenu>
             <el-submenu index="2">

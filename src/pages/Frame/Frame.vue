@@ -11,7 +11,18 @@ export default {
   components: {
   },
   methods: {
-
+    fetchData(){
+      let {params} = this.$route;
+      if(params.url){
+        this.url = params.url;
+      }
+    }
+  },
+  watch:{
+    '$route':'fetchData'
+  },
+  created () {
+    console.log(this.$route.params)
   },
   mounted:function(){
     let {params} = this.$route;

@@ -4,13 +4,16 @@ import Login from '~/pages/Login/Login.vue'
 import Index from '~/pages/Index/Index.vue'
 import Page1 from '~/pages/Test/Page1.vue'
 import Page2 from '~/pages/TEST/Page2.vue'
+
 import firewallPage from '~/pages/LogAnalyze/firewallPage.vue'
 import IPSPage from '~/pages/LogAnalyze/IPS.vue'
 import pwdCrackingPage from '~/pages/LogAnalyze/pwdCracking.vue'
+import FramePage from '~/pages/Frame/Frame.vue'
+import AlarmStatisticPage from '~/pages/LogAnalyze/AlarmStatistic.vue'
+
 import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
 import IPSSearch from '~/pages/LogSearch/IPS.vue'
 import pwdCrackingSearch from '~/pages/LogSearch/pwdCracking.vue'
-import FramePage from '~/pages/Frame/Frame.vue'
 
 
 Vue.use(Router);
@@ -46,6 +49,10 @@ export default new Router({
         {
           path: 'pwdCracking',
           component: pwdCrackingPage
+        },
+        {
+          path: 'alarmStatistic',
+          component: AlarmStatisticPage
         }
       ]
     },
