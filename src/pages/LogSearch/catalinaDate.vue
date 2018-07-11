@@ -51,7 +51,7 @@
         }
         searchParam.username = this.searchParam.username;
         let pagination = this.pagination;
-        http.post(this.baseUrl + '/log/Filename/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
+        http.post(this.baseUrl + '/log/Catalina/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
           if(suc && suc.list){
             this.list = suc.list;
             this.pagination.total = suc.pagination.total;
