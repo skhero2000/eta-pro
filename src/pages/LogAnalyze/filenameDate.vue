@@ -14,7 +14,7 @@
       </el-col>
       <el-col :span="12">
         <div class="mb_20">
-          <span>username：</span>
+          <span>filename：</span>
           <el-select v-model="selectedType" placeholder="请选择" @change="changeType">
             <el-option key="all" label="全部" value="all">
             </el-option>
@@ -45,7 +45,7 @@
           <el-tab-pane label="日志分析" name="first">
             <div v-if="list.length>0">
               <el-table :data="list">
-                <el-table-column prop="username" label="username">
+                <el-table-column prop="filename" label="filename">
                 </el-table-column>
                 <el-table-column prop="line" label="line" >
                 </el-table-column>
@@ -91,14 +91,14 @@ export default {
         searchParam.endTime = time[1].getTime()/1000;
       }
 
-      http.post(this.baseUrl + '/log/Catalina/getPieData', {searchParam:searchParam}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Filename/getPieData', {searchParam:searchParam}).then(function (suc) {
         console.log({suc:suc});
         if(suc){
           let typeArr = [];
           let data = [];
           suc.map((v,i)=>{
-            typeArr.push(v['username']);
-            data.push({value:v['count'], name:v['username']})
+            typeArr.push(v['filename']);
+            data.push({value:v['count'], name:v['filename']})
           });
           this.typeArr = typeArr;
           this.pieOptions.legend.data=typeArr;
@@ -117,7 +117,7 @@ export default {
         param.endTime = time[1].getTime()/1000;
       }
 
-      http.post(this.baseUrl + '/log/Catalina/getColumnData', {searchParam:param}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Filename/getColumnData', {searchParam:param}).then(function (suc) {
         if(suc && suc.length){
           let xAxis = [], series=[], legend =[];
           suc.map((v,i)=>{
@@ -126,14 +126,14 @@ export default {
               v['value'].map((vv,vi)=>{
                 let flag = true;
                 series.map((sv,si)=>{
-                  if(sv['name'] === vv['username']){
+                  if(sv['name'] === vv['filename']){
                     flag = false;
                   }
                 });
                 if(flag){
-                  legend.push(vv['username']);
+                  legend.push(vv['filename']);
                   series.push({
-                    name: vv['username'],
+                    name: vv['filename'],
                     type: 'line',
                     data: []
                   })
@@ -147,7 +147,7 @@ export default {
               if(v['value'] && v['value'].length>0){
                 let flag = true, index=-1;
                 v['value'].map((vv,vi)=>{
-                  if(sv['name'] === vv['username']){
+                  if(sv['name'] === vv['filename']){
                     flag = false;
                     index = vi;
                   }
@@ -182,7 +182,7 @@ export default {
       }
       searchParam.field = this.selectedField;
       searchParam.type = this.selectedType;
-      http.post(this.baseUrl + '/log/Catalina/getFieldList', {searchParam:searchParam}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Filename/getFieldList', {searchParam:searchParam}).then(function (suc) {
         if(suc){
           this.fieldList = suc;
         }
@@ -197,7 +197,7 @@ export default {
       }
       searchParam.type = this.selectedType;
       let pagination = this.pagination;
-      http.post(this.baseUrl + '/log/Catalina/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
+      http.post(this.baseUrl + '/log/Filename/getList', {searchParam:searchParam, pagination:pagination}).then(function (suc) {
         if(suc && suc.list){
           this.list = suc.list;
           this.pagination.total = suc.pagination.total;
@@ -319,7 +319,7 @@ export default {
       },
       pieOptions:{
         title : {
-          text: '账户异常登录分析',
+          text: '系统异常文件传输分析',
           subtext: '',
           x:'center'
         },

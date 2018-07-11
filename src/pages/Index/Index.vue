@@ -37,6 +37,9 @@
                   异常文件上传分析
                 </el-menu-item>
                 <el-menu-item index="1-4" :route="{path:'/LogAnalyze/catalinaDate'}">
+                  账户异常登录分析
+                </el-menu-item>
+                <el-menu-item index="1-5" :route="{path:'/LogAnalyze/filenameDate'}">
                   系统异常文件传输分析
                 </el-menu-item>
                 <!--<el-menu-item index="1-4" :route="{path:'/LogAnalyze/alarmStatistic'}">-->

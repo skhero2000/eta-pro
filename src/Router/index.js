@@ -11,6 +11,7 @@ import pwdCrackingPage from '~/pages/LogAnalyze/pwdCracking.vue'
 import FramePage from '~/pages/Frame/Frame.vue'
 import AlarmStatisticPage from '~/pages/LogAnalyze/AlarmStatistic.vue'
 import CatalinaDatePage from '~/pages/LogAnalyze/catalinaDate.vue'
+import FilenameDatePage from '~/pages/LogAnalyze/filenameDate.vue'
 
 
 import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
@@ -61,6 +62,10 @@ export default new Router({
         {
           path: 'catalinaDate',
           component: CatalinaDatePage
+        },
+        {
+          path: 'filenameDate',
+          component: FilenameDatePage
         }
       ]
     },
