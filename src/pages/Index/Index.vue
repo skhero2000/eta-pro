@@ -34,10 +34,10 @@
                   IPS攻击分析
                 </el-menu-item>
                 <el-menu-item index="1-3" :route="{path:'/LogAnalyze/pwdCracking'}">
-                  口令爆破
+                  异常文件上传分析
                 </el-menu-item>
                 <el-menu-item index="1-4" :route="{path:'/LogAnalyze/catalinaDate'}">
-                  爆破账户
+                  系统异常文件传输分析
                 </el-menu-item>
                 <!--<el-menu-item index="1-4" :route="{path:'/LogAnalyze/alarmStatistic'}">-->
                   <!--告警统计-->
@@ -57,7 +57,10 @@
                   密码爆破日志
                 </el-menu-item>
                 <el-menu-item index="2-4" :route="{path:'/LogSearch/catalinaDate'}">
-                  文件上传日志
+                  账户异常登录日志
+                </el-menu-item>
+                <el-menu-item index="2-5" :route="{path:'/LogSearch/filenameDate'}">
+                  系统异常文件传输日志
                 </el-menu-item>
               </el-menu-item-group>
             </el-submenu>

@@ -319,7 +319,7 @@ export default {
       },
       pieOptions:{
         title : {
-          text: '爆破账户占比排名top10',
+          text: '账户异常登录分析',
           subtext: '',
           x:'center'
         },

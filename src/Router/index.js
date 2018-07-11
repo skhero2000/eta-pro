@@ -17,6 +17,7 @@ import firewallSearch from '~/pages/LogSearch/firewallPage.vue'
 import IPSSearch from '~/pages/LogSearch/IPS.vue'
 import pwdCrackingSearch from '~/pages/LogSearch/pwdCracking.vue'
 import catalinaDateSearch from '~/pages/LogSearch/catalinaDate.vue'
+import fileDateDateSearch from '~/pages/LogSearch/filenameDate.vue'
 
 
 Vue.use(Router);
@@ -80,6 +81,10 @@ export default new Router({
         {
           path: 'catalinaDate',
           component: catalinaDateSearch
+        },
+        {
+          path: 'filenameDate',
+          component: fileDateDateSearch
         }
       ]
     },
